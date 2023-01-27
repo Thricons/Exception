@@ -44,14 +44,9 @@ public class EventHook {//Low IQ so FML Event
     @SubscribeEvent
     public void onKey(InputEvent.KeyInputEvent e){
         for (Module m : Exception.instance.moduleManager.moduleList){
-            if(Keyboard.getEventKeyState()){
                 if(Keyboard.isKeyDown(m.getKey())){
                     m.setEnable(m.isEnable());
                 }
-            }
-        }
-        if(Keyboard.getEventKeyState()){
-            new EventKeyboard(Keyboard.getEventKey()).call();
         }
     }
 }
