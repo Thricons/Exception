@@ -36,27 +36,4 @@ public class Wrapper {
             PlayerUtil.tellPlayer(e.getMessage());
         }
     }
-
-    public static void setSprinting(boolean is){
-        Class refClass = null;
-        try{
-            refClass = Class.forName("net/minecraft/client/entity/EntityPlayerSP");
-        }catch (ClassNotFoundException e){
-            try {
-                refClass = Class.forName("bud");
-            } catch (ClassNotFoundException ex) {
-                PlayerUtil.tellPlayer("Could not find EntityPlayerSP Class. Did you use FML?");
-            }
-        }
-
-        try{
-            refClass.getDeclaredMethod("setSprinting", refClass).invoke(refClass, is);
-        } catch (Exception eee){
-            try {
-                refClass.getDeclaredMethod("func_70031_b", refClass).invoke(refClass, is);
-            }catch (Exception ee){
-                PlayerUtil.tellPlayer("Could not find setSprinting Method. Did you use FML?");
-            }
-        }
-    }
 }
