@@ -3,10 +3,13 @@ package cn.exception.event;
 import cn.exception.Exception;
 import cn.exception.event.events.EventKeyboard;
 import cn.exception.event.events.EventRender2D;
+import cn.exception.event.events.EventRenderWorld;
 import cn.exception.event.events.EventUpdate;
 import cn.exception.module.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.client.event.RenderWorldEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -53,5 +56,10 @@ public class EventHook {//Low IQ so FML Event
         if(Keyboard.getEventKeyState()){
             new EventKeyboard(Keyboard.getEventKey()).call();
         }
+    }
+
+    @SubscribeEvent
+    public void onRenderWorld(RenderHandEvent e){
+        new EventRenderWorld(e.partialTicks).call();
     }
 }

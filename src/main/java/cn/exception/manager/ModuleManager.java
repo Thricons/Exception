@@ -5,6 +5,7 @@ import cn.exception.module.impl.combat.AutoClicker;
 import cn.exception.module.impl.movement.Eagle;
 import cn.exception.module.impl.movement.Sprint;
 import cn.exception.module.impl.player.FastPlace;
+import cn.exception.module.impl.render.ChinaHat;
 import cn.exception.module.impl.render.ClickGui;
 import cn.exception.module.impl.render.HUD;
 
@@ -25,11 +26,14 @@ public class ModuleManager {
         moduleList.add(new FastPlace());
         moduleList.add(new ClickGui());
         moduleList.add(new Eagle());
+        moduleList.add(new ChinaHat());
     }
 
     public Module getModuleByName(String s){
         for (Module m : moduleList) {
-            if (!m.getName().equalsIgnoreCase(s)) continue;
+            if (!m.getName().equalsIgnoreCase(s)) {
+                continue;
+            }
             return m;
         }
         return null;
@@ -37,8 +41,9 @@ public class ModuleManager {
 
     public Module getModuleByClass(Class<? extends Module> cls) {
         for (Module m : moduleList) {
-            if (m.getClass() != cls)
+            if (m.getClass() != cls) {
                 continue;
+            }
             return m;
         }
         return null;
@@ -47,8 +52,9 @@ public class ModuleManager {
     public List<Module> getModulesInType(Module.Category t) {
         ArrayList<Module> output = new ArrayList<Module>();
         for (Module m : moduleList) {
-            if (m.getCategroy() != t)
+            if (m.getCategroy() != t) {
                 continue;
+            }
             output.add(m);
         }
         return output;

@@ -1,7 +1,9 @@
 package cn.exception.utils;
 
+import net.minecraft.client.Minecraft;
 import sun.misc.Unsafe;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
 /**
@@ -11,29 +13,55 @@ public class Wrapper {
     public static Unsafe getUnsafe() throws NoSuchFieldException, IllegalAccessException {
         return (Unsafe) Unsafe.class.getClass().getDeclaredField("theUnsafe").get(null);
     }
-    public static void setRightClickDelay(int delay) {
-        Class refClass = null;
-        try {
-           refClass = Class.forName("net/minecraft/client/Minecraft");
-        } catch (ClassNotFoundException e) {
+
+    public static double renderPosX(){
+        try{
+            Field f = Minecraft.getMinecraft().getRenderManager().getClass().getDeclaredField("renderPosX");
+            f.setAccessible(true);
+            return (double) f.get(Minecraft.getMinecraft().getRenderManager());
+        }catch (Exception e){
             try {
-                refClass = Class.forName("bib");
-            } catch (ClassNotFoundException ex) {
-                PlayerUtil.tellPlayer("Could not find Minecraft Class. Did you use FML?");
+                Field f = Minecraft.getMinecraft().getRenderManager().getClass().getDeclaredField("field_78725_b");
+                f.setAccessible(true);
+                return (double) f.get(Minecraft.getMinecraft().getRenderManager());
+            }catch (Exception e1){
+                PlayerUtil.tellPlayer(e1.getMessage());
             }
         }
-        try {
-            refClass.getDeclaredField("rightClickDelay").set(refClass, delay);
-        } catch (NoSuchFieldException e) {
+        return 0;
+    }
+
+    public static double renderPosY(){
+        try{
+            Field f = Minecraft.getMinecraft().getRenderManager().getClass().getDeclaredField("renderPosY");
+            f.setAccessible(true);
+            return (double) f.get(Minecraft.getMinecraft().getRenderManager());
+        }catch (Exception e){
             try {
-                refClass.getDeclaredField("rightClickDelay").set(refClass, delay);
-            } catch (IllegalAccessException ex) {
-                PlayerUtil.tellPlayer(ex.getMessage());
-            } catch (NoSuchFieldException ex) {
-                PlayerUtil.tellPlayer("Could not find rightClickDelay Field. Did you use FML?");
+                Field f = Minecraft.getMinecraft().getRenderManager().getClass().getDeclaredField("field_78726_c");
+                f.setAccessible(true);
+                return (double) f.get(Minecraft.getMinecraft().getRenderManager());
+            }catch (Exception e1){
+                PlayerUtil.tellPlayer(e1.getMessage());
             }
-        } catch (IllegalAccessException e) {
-            PlayerUtil.tellPlayer(e.getMessage());
         }
+        return 0;
+    }
+
+    public static double renderPosZ(){
+        try{
+            Field f = Minecraft.getMinecraft().getRenderManager().getClass().getDeclaredField("renderPosZ");
+            f.setAccessible(true);
+            return (double) f.get(Minecraft.getMinecraft().getRenderManager());
+        }catch (Exception e){
+            try {
+                Field f = Minecraft.getMinecraft().getRenderManager().getClass().getDeclaredField("field_78727_d");
+                f.setAccessible(true);
+                return (double) f.get(Minecraft.getMinecraft().getRenderManager());
+            }catch (Exception e1){
+                PlayerUtil.tellPlayer(e1.getMessage());
+            }
+        }
+        return 0;
     }
 }
