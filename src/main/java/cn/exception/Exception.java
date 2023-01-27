@@ -1,5 +1,6 @@
 package cn.exception;
 
+import cn.exception.event.EventHook;
 import cn.exception.event.EventManager;
 import cn.exception.manager.ModuleManager;
 import com.sun.tools.attach.VirtualMachine;
@@ -16,6 +17,7 @@ public class Exception {
 
     public EventManager eventManager;
     public ModuleManager moduleManager;
+    public EventHook eventHook;
 
     public void start(){
         //init Managers
@@ -23,6 +25,7 @@ public class Exception {
         moduleManager = new ModuleManager();
         moduleManager.loadModules();
 
+        eventHook = new EventHook();
         System.out.printf("Done!");
     }
 }
