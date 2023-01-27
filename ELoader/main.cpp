@@ -60,7 +60,7 @@ DWORD WINAPI MainThread(CONST LPVOID lpParam)
             }
             jclass classLoaderClazz = NULL;
             //classLoaderClazz = jniEnv->DefineClass(NULL, NULL, (jbyte*)classLoaderClass, classLoaderClassSize);
-             const char *classStr = "cn/exception/Loader";
+            const char *classStr = "cn/exception/Loader";
             classLoaderClazz = jniEnv->FindClass(classStr)
             if (!classLoaderClazz)
             {
