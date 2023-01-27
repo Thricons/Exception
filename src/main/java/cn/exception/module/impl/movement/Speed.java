@@ -39,7 +39,7 @@ public class Speed extends Module {
     @EventTarget
     public void onEvent(EventUpdate eventUpdate){
         setSuffix(mode.getValue());
-        Wrapper.getTimer().timerSpeed = timer.floatValue();
+       // Wrapper.getTimer().timerSpeed = timer.floatValue();
         if(eventUpdate.getType() == Event.Type.POST && mode.isCurrentMode("NCP")){
 //              if (mc.thePlayer.ticksExisted % 20 <= 9) {
 //                Wrapper.getTimer().timerSpeed = 1.05f;

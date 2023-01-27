@@ -41,6 +41,12 @@ public class EventHook {//Low IQ so FML Event
                     Minecraft.getMinecraft().thePlayer.rotationPitch,
                     Minecraft.getMinecraft().thePlayer.onGround);
             eu.call();
+        }else {
+            EventUpdate eu = new EventUpdate(Event.Type.POST,
+                    Minecraft.getMinecraft().thePlayer.rotationYaw,
+                    Minecraft.getMinecraft().thePlayer.rotationPitch,
+                    Minecraft.getMinecraft().thePlayer.onGround);
+            eu.call();
         }
     }
 
