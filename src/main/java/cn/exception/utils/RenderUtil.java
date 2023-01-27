@@ -1,5 +1,7 @@
 package cn.exception.utils;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -48,7 +50,76 @@ public class RenderUtil {
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
     }
+    public static void prepareScissorBox(float x, float y, float x2, float y2) {
+        ScaledResolution scale = new ScaledResolution(Minecraft.getMinecraft());
+        int factor = scale.getScaleFactor();
+        GL11.glScissor((int) ((int) (x * (float) factor)), (int) ((int) (((float) scale.getScaledHeight() - y2) * (float) factor)), (int) ((int) ((x2 - x) * (float) factor)), (int) ((int) ((y2 - y) * (float) factor)));
+    }
+    public static void drawGradientSideways(double left, double top, double right, double bottom, int col1, int col2) {
+        float f = (col1 >> 24 & 0xFF) / 255.0F;
+        float f1 = (col1 >> 16 & 0xFF) / 255.0F;
+        float f2 = (col1 >> 8 & 0xFF) / 255.0F;
+        float f3 = (col1 & 0xFF) / 255.0F;
 
+        float f4 = (col2 >> 24 & 0xFF) / 255.0F;
+        float f5 = (col2 >> 16 & 0xFF) / 255.0F;
+        float f6 = (col2 >> 8 & 0xFF) / 255.0F;
+        float f7 = (col2 & 0xFF) / 255.0F;
+        GL11.glEnable(3042);
+        GL11.glDisable(3553);
+        GL11.glBlendFunc(770, 771);
+        GL11.glEnable(2848);
+        GL11.glShadeModel(7425);
+
+        GL11.glPushMatrix();
+        GL11.glBegin(7);
+        GL11.glColor4f(f1, f2, f3, f);
+        GL11.glVertex2d(left, top);
+        GL11.glVertex2d(left, bottom);
+
+        GL11.glColor4f(f5, f6, f7, f4);
+        GL11.glVertex2d(right, bottom);
+        GL11.glVertex2d(right, top);
+        GL11.glEnd();
+        GL11.glPopMatrix();
+
+        GL11.glEnable(3553);
+        GL11.glDisable(3042);
+        GL11.glDisable(2848);
+        GL11.glShadeModel(7424);
+        GL11.glColor4d(255, 255, 255, 255);
+    }
+
+    public static double getAnimationStateSmooth(double target, double current, double speed) {
+        boolean larger = target > current;
+        if (speed < 0.0) {
+            speed = 0.0;
+        } else if (speed > 1.0) {
+            speed = 1.0;
+        }
+        if (target == current) {
+            return target;
+        }
+        double dif = Math.max(target, current) - Math.min(target, current);
+        double factor = dif * speed;
+        if (factor < 0.1) {
+            factor = 0.1;
+        }
+        if (larger) {
+            if (current + factor > target) {
+                current = target;
+            } else {
+                current += factor;
+            }
+        } else {
+            if (current - factor < target) {
+                current = target;
+            } else {
+                current -= factor;
+            }
+        }
+        return current;
+    }
     public static void rectangleBordered(final double x, final double y, final double x1, final double y1, final double width, final int internalColor, final int borderColor) {
         rectangle(x + width, y + width, x1 - width, y1 - width, internalColor);
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);

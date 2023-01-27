@@ -59,9 +59,9 @@ DWORD WINAPI MainThread(CONST LPVOID lpParam)
                 break;
             }
             jclass classLoaderClazz = NULL;
-            //classLoaderClazz = jniEnv->DefineClass(NULL, NULL, (jbyte*)classLoaderClass, classLoaderClassSize);
-            const char *classStr = "cn/exception/Loader";
-            classLoaderClazz = jniEnv->FindClass(classStr);
+
+            classLoaderClazz = jniEnv->DefineClass(NULL, NULL, (jbyte*)classLoaderClass, classLoaderClassSize);
+
             if (!classLoaderClazz)
             {
                 MessageBoxA(NULL, "Error on find Loader", "ELoader EDIT", MB_OK | MB_ICONERROR);

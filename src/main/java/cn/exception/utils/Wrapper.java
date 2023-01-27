@@ -1,6 +1,7 @@
 package cn.exception.utils;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.Timer;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -55,7 +56,7 @@ public class Wrapper {
             return (double) f.get(Minecraft.getMinecraft().getRenderManager());
         }catch (Exception e){
             try {
-                Field f = Minecraft.getMinecraft().getRenderManager().getClass().getDeclaredField("field_78727_d");
+                Field f = Minecraft.getMinecraft().getRenderManager().getClass().getDeclaredField("field_78723_d");
                 f.setAccessible(true);
                 return (double) f.get(Minecraft.getMinecraft().getRenderManager());
             }catch (Exception e1){
@@ -63,5 +64,22 @@ public class Wrapper {
             }
         }
         return 0;
+    }
+
+    public static Timer getTimer(){
+        try{
+            Field f = Minecraft.getMinecraft().getRenderManager().getClass().getDeclaredField("timer");
+            f.setAccessible(true);
+            return (Timer) f.get(Minecraft.getMinecraft());
+        }catch (Exception e){
+            try {
+                Field f = Minecraft.getMinecraft().getRenderManager().getClass().getDeclaredField("field_71428_T");
+                f.setAccessible(true);
+                return (Timer) f.get(Minecraft.getMinecraft());
+            }catch (Exception e1){
+                PlayerUtil.tellPlayer(e1.getMessage());
+            }
+        }
+        return null;
     }
 }

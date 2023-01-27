@@ -21,11 +21,11 @@ public class AutoClicker extends Module{
         addValues(cpsMax, cpsMin);
         setKey(Keyboard.KEY_R);
     }
-    TimerUtil timeHelper = new TimerUtil();
+    TimerUtil TimerUtil = new TimerUtil();
     @EventTarget
     public void onUpdate(EventUpdate e){
         setSuffix("CPSMax:" + cpsMax.getValue() + " CPSMin:" + cpsMin.getValue());
-        if(timeHelper.hasReached((1000.0/ MathUtil.randomDouble(cpsMin.intValue(), cpsMax.intValue()))) && mc.gameSettings.keyBindAttack.isKeyDown())
+        if(TimerUtil.hasReached((1000.0/ MathUtil.randomDouble(cpsMin.intValue(), cpsMax.intValue()))) && mc.gameSettings.keyBindAttack.isKeyDown())
         {
             if(mc.gameSettings.keyBindAttack.isKeyDown()) {
                 mc.thePlayer.swingItem();
@@ -40,7 +40,7 @@ public class AutoClicker extends Module{
                         mc.playerController.clickBlock(blockpos, mc.objectMouseOver.sideHit);
                     }
                 }
-                timeHelper.reset();
+                TimerUtil.reset();
             }
         }
     }

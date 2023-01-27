@@ -1,13 +1,18 @@
 package cn.exception.manager;
 
 import cn.exception.module.Module;
+import cn.exception.module.impl.combat.AntiBot;
 import cn.exception.module.impl.combat.AutoClicker;
+import cn.exception.module.impl.combat.KillAura;
 import cn.exception.module.impl.movement.Eagle;
+import cn.exception.module.impl.movement.Speed;
 import cn.exception.module.impl.movement.Sprint;
 import cn.exception.module.impl.player.FastPlace;
+import cn.exception.module.impl.player.Teams;
 import cn.exception.module.impl.render.ChinaHat;
 import cn.exception.module.impl.render.ClickGui;
 import cn.exception.module.impl.render.HUD;
+import cn.exception.module.impl.render.TargetHUD;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -20,6 +25,9 @@ public class ModuleManager {
     public List<Module> moduleList = new ArrayList<>();
 
     public void loadModules(){
+        moduleList.add(new AntiBot());
+        moduleList.add(new Teams());
+        moduleList.add(new KillAura());
         moduleList.add(new HUD());
         moduleList.add(new AutoClicker());
         moduleList.add(new Sprint());
@@ -27,6 +35,8 @@ public class ModuleManager {
         moduleList.add(new ClickGui());
         moduleList.add(new Eagle());
         moduleList.add(new ChinaHat());
+        moduleList.add(new Speed());
+        moduleList.add(new TargetHUD());
     }
 
     public Module getModuleByName(String s){
