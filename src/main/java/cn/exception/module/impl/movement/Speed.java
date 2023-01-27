@@ -14,6 +14,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraftforge.fml.common.eventhandler.ASMEventHandler;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -40,11 +41,11 @@ public class Speed extends Module {
         setSuffix(mode.getValue());
         Wrapper.getTimer().timerSpeed = timer.floatValue();
         if(eventUpdate.getType() == Event.Type.POST && mode.isCurrentMode("NCP")){
-            if (mc.thePlayer.ticksExisted % 20 <= 9) {
-                Wrapper.getTimer().timerSpeed = 1.05f;
-            } else {
-                Wrapper.getTimer().timerSpeed = 0.98f;
-            }
+//              if (mc.thePlayer.ticksExisted % 20 <= 9) {
+//                Wrapper.getTimer().timerSpeed = 1.05f;
+//            } else {
+//                Wrapper.getTimer().timerSpeed = 0.98f;
+//            }
 
             if (MoveUtil.isMoving()) {
                 if (mc.thePlayer.onGround) {
@@ -283,7 +284,7 @@ public class Speed extends Module {
 
     @Override
     public void onDisable() {
-        Wrapper.getTimer().timerSpeed = 1F;
+        //Wrapper.getTimer().timerSpeed = 1F;
         mc.thePlayer.jumpMovementFactor = 0.02f;
         super.onDisable();
     }
