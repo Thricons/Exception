@@ -2,6 +2,7 @@ package cn.exception.module.impl.combat;
 
 import cn.exception.event.EventTarget;
 import cn.exception.event.events.EventPacket;
+import cn.exception.event.events.EventUpdate;
 import cn.exception.module.Module;
 import cn.exception.module.value.Mode;
 import cn.exception.utils.PlayerUtil;
@@ -18,19 +19,19 @@ public class Velocity extends Module {
     }
 
     @EventTarget
-    public void onVelocity(EventPacket e){
-        if(e.getPacket() instanceof S12PacketEntityVelocity){
-            S12PacketEntityVelocity s12 = (S12PacketEntityVelocity) e.getPacket();
-            try{
-                s12.getClass().getDeclaredField("motionX").set(s12, 0);
-                s12.getClass().getDeclaredField("motionZ").set(s12, 0);
-            }catch (Exception ex){
-                try{
-                    s12.getClass().getDeclaredField("field_149415_b").set(s12, 0);
-                    s12.getClass().getDeclaredField("field_149414_d").set(s12, 0);
-                }catch (Exception exp){
-                    PlayerUtil.tellPlayer(exp.toString());
+    public void onVelocity(EventUpdate e){
+        if(mc.thePlayer.hurtTime == mc.thePlayer.maxHurtTime){
+            if(mode.isCurrentMode("Cancel")){
+                mc.thePlayer.motionY *= 1;
+                mc.thePlayer.motionX *= 1;
+                mc.thePlayer.motionZ *= 1;
+            }
+            if(mode.isCurrentMode("Hypixel")){
+                if (!mc.thePlayer.onGround) {
+                    mc.thePlayer.motionY *= 1;
                 }
+                mc.thePlayer.motionX *= 1;
+                mc.thePlayer.motionZ *= 1;
             }
         }
     }
