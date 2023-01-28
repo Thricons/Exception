@@ -8,10 +8,29 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
 
+import java.awt.*;
+
 /**
  * Code by MiLiBlue, At 2022/12/27
  **/
 public class RenderUtil {
+    public static void stopDrawing() {
+        GL11.glDisable(3042);
+        GL11.glEnable(3553);
+        GL11.glDisable(2848);
+        GL11.glDisable(3042);
+        GL11.glEnable(2929);
+    }
+
+    public static void startDrawing() {
+        GL11.glEnable(3042);
+        GL11.glEnable(3042);
+        GL11.glBlendFunc(770, 771);
+        GL11.glEnable(2848);
+        GL11.glDisable(3553);
+        GL11.glDisable(2929);
+    }
+
     /**
      * Draws a solid color rectangle with the specified coordinates and color (ARGB format). Args: x1, y1, x2, y2, color
      */
@@ -49,6 +68,17 @@ public class RenderUtil {
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+    }
+
+    public static Color blend(final Color color1, final Color color2, final double ratio) {
+        final float r = (float)ratio;
+        final float ir = 1.0f - r;
+        final float[] rgb1 = new float[3];
+        final float[] rgb2 = new float[3];
+        color1.getColorComponents(rgb1);
+        color2.getColorComponents(rgb2);
+        final Color color3 = new Color(rgb1[0] * r + rgb2[0] * ir, rgb1[1] * r + rgb2[1] * ir, rgb1[2] * r + rgb2[2] * ir);
+        return color3;
     }
     public static void prepareScissorBox(float x, float y, float x2, float y2) {
         ScaledResolution scale = new ScaledResolution(Minecraft.getMinecraft());

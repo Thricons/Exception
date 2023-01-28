@@ -24,7 +24,7 @@ import java.math.RoundingMode;
  **/
 public class Speed extends Module {
     public static Mode mode = new Mode("Mode", new String[]{"NCP", "Vanilla", "Mineland", "BlocksMC"}, "NCP");
-    public Numbers timer = new Numbers<>("Timer", 1.6f, 1f,2f,0.1f);
+    public Numbers timer = new Numbers<>("Timer", 1.6, 1,2,0.1);
     private boolean bool;
     public Option workOnDamange = new Option("OnlyWorkOnDamage", true);
     private int offGroundTicks;
@@ -39,13 +39,13 @@ public class Speed extends Module {
     @EventTarget
     public void onEvent(EventUpdate eventUpdate){
         setSuffix(mode.getValue());
-       // Wrapper.getTimer().timerSpeed = timer.floatValue();
+        Wrapper.getTimer().timerSpeed = timer.floatValue();
         if(eventUpdate.getType() == Event.Type.POST && mode.isCurrentMode("NCP")){
-//              if (mc.thePlayer.ticksExisted % 20 <= 9) {
-//                Wrapper.getTimer().timerSpeed = 1.05f;
-//            } else {
-//                Wrapper.getTimer().timerSpeed = 0.98f;
-//            }
+              if (mc.thePlayer.ticksExisted % 20 <= 9) {
+                Wrapper.getTimer().timerSpeed = 1.05f;
+            } else {
+                Wrapper.getTimer().timerSpeed = 0.98f;
+            }
 
             if (MoveUtil.isMoving()) {
                 if (mc.thePlayer.onGround) {

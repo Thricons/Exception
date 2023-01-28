@@ -13,7 +13,6 @@ VOID OutputLastError(DWORD errorCode)
 
 DWORD WINAPI MainThread(CONST LPVOID lpParam)
 {
-    MessageBoxA(NULL, "Starting injecting", "ELoader", MB_OK | MB_ICONINFORMATION);
     HMODULE jvmDll = GetModuleHandleA("jvm.dll");
     if (!jvmDll)
     {

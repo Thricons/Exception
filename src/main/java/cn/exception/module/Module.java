@@ -20,7 +20,7 @@ public class Module {
     public Category category;
     public String suffix;
     public List<Value> valueList = new ArrayList<>();
-    protected static Minecraft mc = Minecraft.getMinecraft();
+    protected Minecraft mc = Minecraft.getMinecraft();
     public float animY = 1;
     public float animX = 1;
     private float anWidth;

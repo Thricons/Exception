@@ -9,10 +9,7 @@ import cn.exception.module.impl.movement.Speed;
 import cn.exception.module.impl.movement.Sprint;
 import cn.exception.module.impl.player.FastPlace;
 import cn.exception.module.impl.player.Teams;
-import cn.exception.module.impl.render.ChinaHat;
-import cn.exception.module.impl.render.ClickGui;
-import cn.exception.module.impl.render.HUD;
-import cn.exception.module.impl.render.TargetHUD;
+import cn.exception.module.impl.render.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -37,6 +34,7 @@ public class ModuleManager {
         moduleList.add(new ChinaHat());
         moduleList.add(new Speed());
         moduleList.add(new TargetHUD());
+        moduleList.add(new NameTags());
     }
 
     public Module getModuleByName(String s){

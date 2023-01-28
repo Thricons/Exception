@@ -68,12 +68,12 @@ public class Wrapper {
 
     public static Timer getTimer(){
         try{
-            Field f = Minecraft.getMinecraft().getRenderManager().getClass().getDeclaredField("timer");
+            Field f = Minecraft.getMinecraft().getClass().getDeclaredField("timer");
             f.setAccessible(true);
             return (Timer) f.get(Minecraft.getMinecraft());
         }catch (Exception e){
             try {
-                Field f = Minecraft.getMinecraft().getRenderManager().getClass().getDeclaredField("field_71428_T");
+                Field f = Minecraft.getMinecraft().getClass().getDeclaredField("field_71428_T");
                 f.setAccessible(true);
                 return (Timer) f.get(Minecraft.getMinecraft());
             }catch (Exception e1){
@@ -81,5 +81,27 @@ public class Wrapper {
             }
         }
         return null;
+    }
+
+    public static boolean isOptifine() throws ClassNotFoundException {
+        if(Class.forName("optifine/Installer") != null){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public static boolean zoomMode(){
+        try {
+            if (isOptifine()) {
+                //Get Config
+                Class refClass = Class.forName("Config");
+                return (boolean) refClass.getDeclaredField("zoomMode").get(refClass);
+            } else {
+                return false;
+            }
+        }catch (Exception e) {
+            return false;
+        }
     }
 }
