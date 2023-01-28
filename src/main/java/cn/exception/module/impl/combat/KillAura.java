@@ -14,6 +14,7 @@ import cn.exception.utils.MoveUtil;
 import cn.exception.utils.RotationUtil;
 import cn.exception.utils.TimerUtil;
 import io.netty.util.internal.ThreadLocalRandom;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -102,6 +103,7 @@ public class KillAura extends Module {
     private final TimerUtil switchTimer;
     private final Numbers<Double> PreFerCps;
     public static Mode block = new Mode("BlockMode", new String[]{"Default", "Fake"}, "Default");
+    static Minecraft mc = Minecraft.getMinecraft();
 
     static {
         lastYaw = 0.0f;
