@@ -27,9 +27,6 @@ public class Velocity extends Module {
                 mc.thePlayer.motionZ *= 1;
             }
             if(mode.isCurrentMode("Hypixel")){
-                if (!mc.thePlayer.onGround) {
-                    mc.thePlayer.motionY *= 1;
-                }
                 mc.thePlayer.motionX *= 1;
                 mc.thePlayer.motionZ *= 1;
             }
