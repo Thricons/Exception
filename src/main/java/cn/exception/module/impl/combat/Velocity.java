@@ -6,6 +6,8 @@ import cn.exception.event.events.EventUpdate;
 import cn.exception.module.Module;
 import cn.exception.module.value.Mode;
 import cn.exception.utils.PlayerUtil;
+import cn.exception.utils.RefUtil;
+import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 
 /**
@@ -19,16 +21,14 @@ public class Velocity extends Module {
     }
 
     @EventTarget
-    public void onVelocity(EventUpdate e){
-        if(mc.thePlayer.hurtTime == mc.thePlayer.maxHurtTime){
+    public void onVelocity(EventPacket e){
+        if(e.getPacket() instanceof S12PacketEntityVelocity){
             if(mode.isCurrentMode("Cancel")){
-                mc.thePlayer.motionY *= 1;
-                mc.thePlayer.motionX *= 1;
-                mc.thePlayer.motionZ *= 1;
+                e.setCancelled(true);
             }
             if(mode.isCurrentMode("Hypixel")){
-                mc.thePlayer.motionX *= 1;
-                mc.thePlayer.motionZ *= 1;
+                S12PacketEntityVelocity s12 = (S12PacketEntityVelocity) e.getPacket();
+                RefUtil.set(s12, 0, "field_149415_b", "motionX", "field_149414_d", "motionZ");
             }
         }
     }
