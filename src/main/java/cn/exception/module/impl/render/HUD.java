@@ -72,12 +72,12 @@ public class HUD extends Module {
             if (++rainbowTick > 50) {
                 rainbowTick = 0;
             }
-            module.animY = module.animationUtil.animate(yStart, module.animY, 0.15f);
+            module.animY = module.animationUtil.animate(yStart, module.animY, 10/mc.getDebugFPS());
             if(!module.preDisable) {
-                module.animX = module.animationUtil2.animate(startX, module.animX, 0.15f);
+                module.animX = module.animationUtil2.animate(startX, module.animX, 10/mc.getDebugFPS());
             }else {
                 if(!(module.animX >= sr.getScaledWidth()-1)){
-                    module.animX = module.animationUtil2.animate(sr.getScaledWidth(), module.animX, 0.15f);
+                    module.animX = module.animationUtil2.animate(sr.getScaledWidth(), module.animX, 10/mc.getDebugFPS());
                 }
                 if (module.animX >= sr.getScaledWidth()-1){
                     module.preDisable = false;
