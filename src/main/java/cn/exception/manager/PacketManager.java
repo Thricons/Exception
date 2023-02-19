@@ -31,7 +31,7 @@ public class PacketManager {//Skid
             this.networkManager = e.manager;
         }
         if(networkManager != null){
-            networkManager.channel().pipeline().addBefore("packet_handler", "BokerLite", new PacketListener());
+            networkManager.channel().pipeline().addBefore("packet_handler", "SubMiLiBlue", new PacketListener());
         }
     }
 }
