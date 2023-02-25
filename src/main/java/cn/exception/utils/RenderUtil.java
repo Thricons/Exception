@@ -1,6 +1,7 @@
 package cn.exception.utils;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -21,6 +22,37 @@ public class RenderUtil {
         GL11.glDisable(3042);
         GL11.glEnable(2929);
     }
+    public static void drawCircle( float cx, float cy, float r, int num_segments, int c ) {
+        GL11.glPushMatrix( );
+        cx *= 2.0F;
+        cy *= 2.0F;
+        float f = ( c >> 24 & 0xFF ) / 255.0F;
+        float f1 = ( c >> 16 & 0xFF ) / 255.0F;
+        float f2 = ( c >> 8 & 0xFF ) / 255.0F;
+        float f3 = ( c & 0xFF ) / 255.0F;
+        float theta = ( float ) ( 6.2831852D / num_segments );
+        float p = ( float ) Math.cos( theta );
+        float s = ( float ) Math.sin( theta );
+        float x = r *= 2.0F;
+        float y = 0.0F;
+        enableGL2D( );
+        GL11.glScalef( 0.5F, 0.5F, 0.5F );
+        GL11.glColor4f( f1, f2, f3, f );
+        GL11.glBegin( 2 );
+        int ii = 0;
+        while ( ii < num_segments ) {
+            GL11.glVertex2f( x + cx, y + cy );
+            float t = x;
+            x = p * x - s * y;
+            y = s * t + p * y;
+            ii++;
+        }
+        GL11.glEnd( );
+        GL11.glScalef( 2.0F, 2.0F, 2.0F );
+        disableGL2D( );
+        GlStateManager.color( 1, 1, 1, 1 );
+        GL11.glPopMatrix( );
+    }
 
     public static void startDrawing() {
         GL11.glEnable(3042);
@@ -29,6 +61,146 @@ public class RenderUtil {
         GL11.glEnable(2848);
         GL11.glDisable(3553);
         GL11.glDisable(2929);
+    }
+
+    public static void triangle( float x1, float y1, float x2, float y2, float x3, float y3, int fill ) {
+        RenderUtil.enableGL2D( );
+        GlStateManager.color( 0, 0, 0 );
+        GL11.glColor4f( 0, 0, 0, 0 );
+
+        float var11 = ( float ) ( fill >> 24 & 255 ) / 255.0F;
+        float var6 = ( float ) ( fill >> 16 & 255 ) / 255.0F;
+        float var7 = ( float ) ( fill >> 8 & 255 ) / 255.0F;
+        float var8 = ( float ) ( fill & 255 ) / 255.0F;
+
+        GlStateManager.enableBlend( );
+        GlStateManager.disableTexture2D( );
+        GlStateManager.tryBlendFuncSeparate( 770, 771, 1, 0 );
+        GlStateManager.color( var6, var7, var8, var11 );
+
+        GL11.glBegin( GL11.GL_TRIANGLE_FAN );
+        GL11.glVertex2f( x1, y1 );
+        GL11.glVertex2f( x3, y3 );
+        GL11.glVertex2f( x2, y2 );
+        GL11.glVertex2f( x1, y1 );
+        GL11.glEnd( );
+
+        GlStateManager.enableTexture2D( );
+        GlStateManager.disableBlend( );
+        RenderUtil.disableGL2D( );
+    }
+
+    public static void drawRoundedRect( float x, float y, float x2, float y2, final float round, final int color ) {
+        x += ( float ) ( round / 2.0f + 0.5 );
+        y += ( float ) ( round / 2.0f + 0.5 );
+        x2 -= ( float ) ( round / 2.0f + 0.5 );
+        y2 -= ( float ) ( round / 2.0f + 0.5 );
+        Gui.drawRect( ( int ) x, ( int ) y, ( int ) x2, ( int ) y2, color );
+        circle( x2 - round / 2.0f, y + round / 2.0f, round, color );
+        circle( x + round / 2.0f, y2 - round / 2.0f, round, color );
+        circle( x + round / 2.0f, y + round / 2.0f, round, color );
+        circle( x2 - round / 2.0f, y2 - round / 2.0f, round, color );
+        Gui.drawRect( ( int ) ( x - round / 2.0f - 0.5f ), ( int ) ( y + round / 2.0f ), ( int ) x2, ( int ) ( y2 - round / 2.0f ), color );
+        Gui.drawRect( ( int ) x, ( int ) ( y + round / 2.0f ), ( int ) ( x2 + round / 2.0f + 0.5f ), ( int ) ( y2 - round / 2.0f ), color );
+        Gui.drawRect( ( int ) ( x + round / 2.0f ), ( int ) ( y - round / 2.0f - 0.5f ), ( int ) ( x2 - round / 2.0f ), ( int ) ( y2 - round / 2.0f ), color );
+        Gui.drawRect( ( int ) ( x + round / 2.0f ), ( int ) y, ( int ) ( x2 - round / 2.0f ), ( int ) ( y2 + round / 2.0f + 0.5f ), color );
+    }
+
+    public static void circle( final float x, final float y, final float radius, final int fill ) {
+        arc( x, y, 0.0f, 360.0f, radius, fill );
+    }
+
+    public static void circle( final float x, final float y, final float radius, final Color fill ) {
+        arc( x, y, 0.0f, 360.0f, radius, fill );
+    }
+
+    public static void arc( final float x, final float y, final float start, final float end, final float radius, final int color ) {
+        arcEllipse( x, y, start, end, radius, radius, color );
+    }
+
+    public static void arc( final float x, final float y, final float start, final float end, final float radius, final Color color ) {
+        arcEllipse( x, y, start, end, radius, radius, color );
+    }
+
+    public static void arcEllipse( final float x, final float y, float start, float end, final float w, final float h, final Color color ) {
+        GlStateManager.color( 0.0f, 0.0f, 0.0f );
+        GL11.glColor4f( 0.0f, 0.0f, 0.0f, 0.0f );
+        float temp = 0.0f;
+        if ( start > end ) {
+            temp = end;
+            end = start;
+            start = temp;
+        }
+        final Tessellator var9 = Tessellator.getInstance( );
+        final WorldRenderer var10 = var9.getWorldRenderer( );
+        GlStateManager.enableBlend( );
+        GlStateManager.disableTexture2D( );
+        GlStateManager.tryBlendFuncSeparate( 770, 771, 1, 0 );
+        GlStateManager.color( color.getRed( ) / 255.0f, color.getGreen( ) / 255.0f, color.getBlue( ) / 255.0f, color.getAlpha( ) / 255.0f );
+        if ( color.getAlpha( ) > 0.5f ) {
+            GL11.glEnable( 2848 );
+            GL11.glLineWidth( 2.0f );
+            GL11.glBegin( 3 );
+            for ( float i = end; i >= start; i -= 4.0f ) {
+                final float ldx = ( float ) Math.cos( i * 3.141592653589793 / 180.0 ) * w * 1.001f;
+                final float ldy = ( float ) Math.sin( i * 3.141592653589793 / 180.0 ) * h * 1.001f;
+                GL11.glVertex2f( x + ldx, y + ldy );
+            }
+            GL11.glEnd( );
+            GL11.glDisable( 2848 );
+        }
+        GL11.glBegin( 6 );
+        for ( float i = end; i >= start; i -= 4.0f ) {
+            final float ldx = ( float ) Math.cos( i * 3.141592653589793 / 180.0 ) * w;
+            final float ldy = ( float ) Math.sin( i * 3.141592653589793 / 180.0 ) * h;
+            GL11.glVertex2f( x + ldx, y + ldy );
+        }
+        GL11.glEnd( );
+        GlStateManager.enableTexture2D( );
+        GlStateManager.disableBlend( );
+    }
+
+
+    public static void arcEllipse( final float x, final float y, float start, float end, final float w, final float h, final int color ) {
+        GlStateManager.color( 0.0f, 0.0f, 0.0f );
+        GL11.glColor4f( 0.0f, 0.0f, 0.0f, 0.0f );
+        float temp = 0.0f;
+        if ( start > end ) {
+            temp = end;
+            end = start;
+            start = temp;
+        }
+        final float var11 = ( color >> 24 & 0xFF ) / 255.0f;
+        final float var12 = ( color >> 16 & 0xFF ) / 255.0f;
+        final float var13 = ( color >> 8 & 0xFF ) / 255.0f;
+        final float var14 = ( color & 0xFF ) / 255.0f;
+        final Tessellator var15 = Tessellator.getInstance( );
+        final WorldRenderer var16 = var15.getWorldRenderer( );
+        GlStateManager.enableBlend( );
+        GlStateManager.disableTexture2D( );
+        GlStateManager.tryBlendFuncSeparate( 770, 771, 1, 0 );
+        GlStateManager.color( var12, var13, var14, var11 );
+        if ( var11 > 0.5f ) {
+            GL11.glEnable( 2848 );
+            GL11.glLineWidth( 2.0f );
+            GL11.glBegin( 3 );
+            for ( float i = end; i >= start; i -= 4.0f ) {
+                final float ldx = ( float ) Math.cos( i * 3.141592653589793 / 180.0 ) * w * 1.001f;
+                final float ldy = ( float ) Math.sin( i * 3.141592653589793 / 180.0 ) * h * 1.001f;
+                GL11.glVertex2f( x + ldx, y + ldy );
+            }
+            GL11.glEnd( );
+            GL11.glDisable( 2848 );
+        }
+        GL11.glBegin( 6 );
+        for ( float i = end; i >= start; i -= 4.0f ) {
+            final float ldx = ( float ) Math.cos( i * 3.141592653589793 / 180.0 ) * w;
+            final float ldy = ( float ) Math.sin( i * 3.141592653589793 / 180.0 ) * h;
+            GL11.glVertex2f( x + ldx, y + ldy );
+        }
+        GL11.glEnd( );
+        GlStateManager.enableTexture2D( );
+        GlStateManager.disableBlend( );
     }
 
     /**

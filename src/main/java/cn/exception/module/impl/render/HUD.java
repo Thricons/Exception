@@ -6,9 +6,12 @@ import cn.exception.event.events.EventRender2D;
 import cn.exception.module.Module;
 import cn.exception.module.value.Numbers;
 import cn.exception.module.value.Option;
+import cn.exception.ui.notification.NotificationRenderer;
+import cn.exception.ui.notification.Notifications;
 import cn.exception.utils.RenderUtil;
 import cn.exception.utils.TimerUtil;
 import cn.exception.utils.fonts.FontLoaders;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -41,6 +44,7 @@ public class HUD extends Module {
     @EventTarget
     public void onRender(EventRender2D eventRender2D){
         int rainbowTick = 0;
+        Notifications.getManager().updateAndRender();
         FontLoaders.kiona18.drawStringWithShadow("Exception", 2, 2, -1);
 
         int yStart = 6;
@@ -72,12 +76,12 @@ public class HUD extends Module {
             if (++rainbowTick > 50) {
                 rainbowTick = 0;
             }
-            module.animY = module.animationUtil.animate(yStart, module.animY, 150/mc.getDebugFPS());
+            module.animY = (float) RenderUtil.getAnimationStateSmooth(yStart, module.animY, 8f / Minecraft.getDebugFPS());
             if(!module.preDisable) {
-                module.animX = module.animationUtil2.animate(startX, module.animX, 150/mc.getDebugFPS());
+                module.animX = (float) RenderUtil.getAnimationStateSmooth(startX, module.animX, 8f / Minecraft.getDebugFPS());
             }else {
                 if(!(module.animX >= sr.getScaledWidth()-1)){
-                    module.animX = module.animationUtil2.animate(sr.getScaledWidth(), module.animX, 150/mc.getDebugFPS());
+                    module.animX = (float) RenderUtil.getAnimationStateSmooth(sr.getScaledWidth(), module.animX, 8f / Minecraft.getDebugFPS());
                 }
                 if (module.animX >= sr.getScaledWidth()-1){
                     module.preDisable = false;
