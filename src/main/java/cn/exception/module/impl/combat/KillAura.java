@@ -4,11 +4,13 @@ import cn.exception.Exception;
 import cn.exception.event.Event;
 import cn.exception.event.EventTarget;
 import cn.exception.event.events.EventUpdate;
+import cn.exception.manager.PacketManager;
 import cn.exception.module.Module;
 import cn.exception.module.impl.player.Teams;
 import cn.exception.module.value.Mode;
 import cn.exception.module.value.Numbers;
 import cn.exception.module.value.Option;
+import cn.exception.ui.notification.Notifications;
 import cn.exception.utils.MathUtil;
 import cn.exception.utils.MoveUtil;
 import cn.exception.utils.RotationUtil;
@@ -294,7 +296,7 @@ public class KillAura extends Module {
             }
 
             if (mc.thePlayer.ticksExisted <= 1 && deathValue.getValue()) {
-                //  NotificationPublisher.queue("Disabled KillAura", "Disabled aura due to death.", NotificationType.WARNING);
+                Notifications.getManager().post("Disabled KillAura", "Disabled aura due to death.", Notifications.Type.WARNING);
                 setEnable(false);
                 return;
             }
@@ -370,53 +372,46 @@ public class KillAura extends Module {
 
                 if (hand.isCurrentMode("Vlamy")) {
                     final float[] rots = getRotations(curTarget, event);
-                    event.setYaw(rots[0]);
-                    event.setPitch(rots[1]);
-                    //  RendererLivingEntity.SetPitchY(rots[1]);
+                    PacketManager.instance.setYaw(rots[0]);
+                    PacketManager.instance.setPitch(rots[1]);
                 }
                 if (hand.isCurrentMode("AAC")) {
                     final float[] rots = getRotations1(curTarget);
-                    event.setYaw(rots[0]);
-                    event.setPitch(rots[1]);
-                    // RendererLivingEntity.SetPitchY(rots[1]);
+                    PacketManager.instance.setYaw(rots[0]);
+                    PacketManager.instance.setPitch(rots[1]);
                 }
                 if (hand.isCurrentMode("Hypixel")) {
                     final float[] rotations1 = ncpRotationsProperty.getValue() ? getRotations2(curTarget) : getRotations(curTarget, event.getYaw(), event.getPitch(), (float) (Object) angleValue.getValue());
                     final float yaw = rotations1[0];
                     final float pitch = rotations1[1];
-                    event.setYaw(yaw);
-                    event.setPitch(pitch);
+                    PacketManager.instance.setYaw(yaw);
+                    PacketManager.instance.setPitch(pitch);
 
                     mc.thePlayer.rotationYawHead = yaw;
-
-                    //  RendererLivingEntity.SetPitchY(mc.thePlayer.rotationPitchHead = pitch);
                 }
                 if (hand.isCurrentMode("Zenith")) {
                     final float[] rots = customRots(event);
                     aacB /= 2.0f;
-                    event.setYaw(rots[0]);
-                    event.setPitch(rots[1]);
-                    //RendererLivingEntity.SetPitchY(rots[1]);
+                    PacketManager.instance.setYaw(rots[0]);
+                    PacketManager.instance.setPitch(rots[1]);
                 }
                 if (hand.isCurrentMode("Exhibition")) {
                     final float[] rotations2 = RotationUtil.getRotations(curTarget);
-                    // MathHelper.clamp_float(RotationUtil.getYawChangeGiven(curTarget.posX, curTarget.posZ, lastAngles.x) + randomNumber(-5.0, 5.0), -180.0f, 180.0f);
+                    //MathHelper.clamp_float(RotationUtil.getYawChangeGiven(curTarget.posX, curTarget.posZ, lastAngles.x) + randomNumber(-5.0, 5.0), -180.0f, 180.0f);
                     facing = RotationUtil.getRotations(curTarget);
                     if (facing.length > 0) {
-                        event.setYaw(facing[0] + new Random().nextInt(2) - 1.0f);
-                        event.setPitch(facing[1]);
+                        PacketManager.instance.setYaw(facing[0] + new Random().nextInt(2) - 1.0f);
+                        PacketManager.instance.setPitch(facing[1]);
                     }
-                    //RendererLivingEntity.SetPitchY(rotations2[1]);
                 }
                 if (hand.isCurrentMode("Slient")) {
                     final float[] rotations1 = ncpRotationsProperty.getValue() ? getRotations2(curTarget) : getRotations(curTarget, event.getYaw(), event.getPitch(), (float) (Object) angleValue.getValue());
                     final float yaw = rotations1[0];
                     final float pitch = rotations1[1];
-                    event.setYaw(yaw);
-                    event.setPitch(pitch);
+                    PacketManager.instance.setYaw(yaw);
+                    PacketManager.instance.setPitch(pitch);
 
                     mc.thePlayer.rotationYawHead = yaw;
-                    // RendererLivingEntity.SetPitchY(KillAura.facing12[1]);
                 }
             }
             if (autoBlockValue.getValue()) {

@@ -31,10 +31,10 @@ public class Exception {
 
         eventHook = new EventHook();
         System.out.printf("Done!");
-        if(!isFromAgent) {
-            Notifications.getManager().post("Load done!(ForgeMod)", "Welcome to Exception! due ForgeMod load, some feather & bypasses can't work.", Notifications.Type.INFO);
-        }else {
-            Notifications.getManager().post("Load done!", "Welcome to Exception!", Notifications.Type.INFO);
-        }
+//        if(!isFromAgent) {
+//            Notifications.getManager().post("Load done!", "Welcome to Exception! due load, some feather & bypasses can't work.", Notifications.Type.INFO);
+//        }else {
+//            Notifications.getManager().post("Load done!", "Welcome to Exception!", Notifications.Type.INFO);
+//        }
     }
 }

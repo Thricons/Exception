@@ -30,7 +30,7 @@ public class NotificationRenderer implements INotificationRenderer{
             float headerWidth = FontLoaders.kiona20.getStringWidth(not.getHeader() + (not.getType().equals(Notifications.Type.MUSIC)? "( \u2022ω\u2022)\u266A~":""));
             float x = (float) (scaledRes.getScaledWidth() - 5 - 1 - 63) - (Math.max(headerWidth, subHeaderWidth));
             GL11.glPushMatrix();
-            GL11.glEnable(3089);
+      //      GL11.glEnable(3089);
             RenderUtil.prepareScissorBox((int) not.translate.getX(), not.translate.getY(), scaledRes.getScaledWidth(), not.translate.getY() + 30F);
 
             //GL11.glScissor((int) not.translate.getX() * s, (int) ((float) scaledRes.getScaledWidth() + 3 - not.translate.getY() * (float) s), scaledRes.getScaledWidth() * s,(int)((not.translate.getY() + 50.0F) * s));
@@ -67,7 +67,7 @@ public class NotificationRenderer implements INotificationRenderer{
             FontLoaders.kiona16.drawStringWithShadow(not.getSubtext(), x + 2 + 24.0F, not.translate.getY() + 4 + 14F, -1);
             RenderUtil.triangle(scaledRes.getScaledWidth() - 5, not.translate.getY() + 5 + 15, scaledRes.getScaledWidth() - 5, not.translate.getY() + 5 + 5, scaledRes.getScaledWidth(), not.translate.getY() + 5 + 10, new Color(10, 10, 10, 200).getRGB());
 
-            GL11.glDisable(3089);
+      //      GL11.glDisable(3089);
             GL11.glPopMatrix();
             if (not.checkTime() >= not.getDisplayTime() + not.getStart()) {
                 if (!not.isplayed && not.getType().equals(Notifications.Type.MUSIC)){

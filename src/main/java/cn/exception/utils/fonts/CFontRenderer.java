@@ -84,7 +84,6 @@ public class CFontRenderer extends CFont
             GlStateManager.color((color >> 16 & 0xFF) / 255.0f, (color >> 8 & 0xFF) / 255.0f, (color & 0xFF) / 255.0f, alpha);
             final int size = text.length();
             GlStateManager.enableTexture2D();
-            GlStateManager.bindTexture(this.tex.getGlTextureId());
             GL11.glBindTexture(3553, this.tex.getGlTextureId());
             for (int i = 0; i < size; ++i) {
                 final char character = text.charAt(i);
