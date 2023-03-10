@@ -6,4 +6,6 @@
 
 # QA
 Q:我可以拿这个项目圈钱吗？  
-A:圈你妈,但是你要是vivo50当我没说
+A:圈你妈,但是你要是vivo50当我没说  
+Q:how 2 use  
+A:使用process hacker或者其他的dll注入工具注入minecraft进程(java.exe)
