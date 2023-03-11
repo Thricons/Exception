@@ -1,7 +1,9 @@
 package cn.exception.manager;
 
 import cn.exception.event.events.EventPacket;
+import cn.exception.utils.PlayerUtil;
 import cn.exception.utils.RefUtil;
+import com.sun.jna.platform.win32.Kernel32;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -19,8 +21,7 @@ import net.minecraftforge.fml.common.network.FMLNetworkEvent;
  */
 public class PacketManager {//Skid
 
-    public static PacketManager instance = new PacketManager();
-    public NetworkManager networkManager;
+    public static PacketManager instance = null;
 
     private float yaw;
     private float pitch;
@@ -29,15 +30,15 @@ public class PacketManager {//Skid
     }
 
     @SubscribeEvent
-    public void onJoin(FMLNetworkEvent.ClientConnectedToServerEvent e){
-        if(networkManager == null){
-            this.networkManager = Minecraft.getMinecraft().getNetHandler().getNetworkManager();
-        }else {
-            this.networkManager = e.manager;
-        }
-        if(networkManager != null){
-            networkManager.channel().pipeline().addBefore("packet_handler", "SubMiLiBlue", new PacketListener());
-        }
+    public void onJoinServer(FMLNetworkEvent.ClientConnectedToServerEvent e) {
+        Minecraft mc = Minecraft.getMinecraft();
+        NetworkManager netMgr;
+        if (e == null) {
+            netMgr = mc.thePlayer.sendQueue.getNetworkManager();
+        } else
+            netMgr = e.manager;
+        if (netMgr != null)
+            netMgr.channel().pipeline().addBefore("packet_handler", "SubMiLiBlue", new PacketListener());
     }
 
     public float getYaw() {
@@ -71,6 +72,18 @@ class PacketListener extends ChannelDuplexHandler {
                     e.setPacket(c03);
                     PacketManager.instance.setPitch(0);
                 }
+                if(msg instanceof C03PacketPlayer.C05PacketPlayerLook){
+                    C03PacketPlayer.C05PacketPlayerLook c03 = (C03PacketPlayer.C05PacketPlayerLook) msg;
+                    RefUtil.set(c03, PacketManager.instance.getPitch(), "pitch", "field_149473_f");
+                    e.setPacket(c03);
+                    PacketManager.instance.setPitch(0);
+                }
+                if(msg instanceof C03PacketPlayer.C06PacketPlayerPosLook){
+                    C03PacketPlayer.C06PacketPlayerPosLook c03 = (C03PacketPlayer.C06PacketPlayerPosLook) msg;
+                    RefUtil.set(c03, PacketManager.instance.getPitch(), "pitch", "field_149473_f");
+                    e.setPacket(c03);
+                    PacketManager.instance.setPitch(0);
+                }
             }
             if(PacketManager.instance.getYaw() != 0){
                 if(msg instanceof C03PacketPlayer){
@@ -78,6 +91,18 @@ class PacketListener extends ChannelDuplexHandler {
                     RefUtil.set(c03, PacketManager.instance.getPitch(), "yaw", "field_149476_e");
                     e.setPacket(c03);
                     PacketManager.instance.setYaw(0);
+                }
+                if(msg instanceof C03PacketPlayer.C05PacketPlayerLook){
+                    C03PacketPlayer.C05PacketPlayerLook c03 = (C03PacketPlayer.C05PacketPlayerLook) msg;
+                    RefUtil.set(c03, PacketManager.instance.getPitch(), "yaw", "field_149476_e");
+                    e.setPacket(c03);
+                    PacketManager.instance.setPitch(0);
+                }
+                if(msg instanceof C03PacketPlayer.C06PacketPlayerPosLook){
+                    C03PacketPlayer.C06PacketPlayerPosLook c03 = (C03PacketPlayer.C06PacketPlayerPosLook) msg;
+                    RefUtil.set(c03, PacketManager.instance.getPitch(), "yaw", "field_149476_e");
+                    e.setPacket(c03);
+                    PacketManager.instance.setPitch(0);
                 }
             }
             super.write(ctx, e.getPacket(), promise);

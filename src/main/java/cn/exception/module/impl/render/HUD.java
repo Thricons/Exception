@@ -52,7 +52,7 @@ public class HUD extends Module {
 
         List<Module> mods = Exception.instance.moduleManager.getEnabledModList();
         mods.sort((o1, o2) ->FontLoaders.kiona17.getStringWidth(o2.getSuffix() == null ? o2.getName() : o2.getName() + "," + o2.getSuffix()) - FontLoaders.kiona17.getStringWidth(o1.getSuffix() == null ? o1.getName() : o1.getName() + "," + o1.getSuffix()));
-        FontLoaders.kiona18.drawStringWithShadow("Build - " + "\247a221227\247f",
+        FontLoaders.kiona18.drawStringWithShadow("Build - " + "\247a230311\247f",
                 sr.getScaledWidth() - 2 -FontLoaders.kiona18.getStringWidth("Build - 082022"),
                 sr.getScaledHeight() - FontLoaders.kiona18.getHeight() - 1, -1);
         for (Module module : mods) {

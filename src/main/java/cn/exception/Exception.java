@@ -3,6 +3,7 @@ package cn.exception;
 import cn.exception.event.EventHook;
 import cn.exception.event.EventManager;
 import cn.exception.manager.ModuleManager;
+import cn.exception.manager.PacketManager;
 import cn.exception.ui.notification.Notifications;
 import net.lenni0451.classtransform.TransformerManager;
 import net.lenni0451.classtransform.utils.tree.BasicClassProvider;
@@ -21,7 +22,6 @@ public class Exception {
     public EventManager eventManager;
     public ModuleManager moduleManager;
     public EventHook eventHook;
-    //public TransformerManager transformerManager = new TransformerManager(new BasicClassProvider());
 
     public void start() {
         //init Managers
@@ -30,11 +30,7 @@ public class Exception {
         moduleManager.loadModules();
 
         eventHook = new EventHook();
+        PacketManager.instance = new PacketManager();
         System.out.printf("Done!");
-//        if(!isFromAgent) {
-//            Notifications.getManager().post("Load done!", "Welcome to Exception! due load, some feather & bypasses can't work.", Notifications.Type.INFO);
-//        }else {
-//            Notifications.getManager().post("Load done!", "Welcome to Exception!", Notifications.Type.INFO);
-//        }
     }
 }
