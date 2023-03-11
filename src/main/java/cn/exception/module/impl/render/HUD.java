@@ -8,6 +8,7 @@ import cn.exception.module.value.Numbers;
 import cn.exception.module.value.Option;
 import cn.exception.ui.notification.NotificationRenderer;
 import cn.exception.ui.notification.Notifications;
+import cn.exception.utils.BlurUtil;
 import cn.exception.utils.RenderUtil;
 import cn.exception.utils.TimerUtil;
 import cn.exception.utils.fonts.FontLoaders;
@@ -34,10 +35,12 @@ public class HUD extends Module {
     public static int MAIN = new Color(0, 128, 255).getRGB();
     public static final int SECONDARY = new Color(23, 23, 23, backgroundAlpha.intValue()).getRGB();
     static Option rainbow = new Option("Rainbow",  false);
+    static Option blur = new Option("Blur",  false);
+    static Option Rect = new Option("Rect",  false);
     private TimerUtil timer = new TimerUtil();
     public HUD(){
         super("HUD", Category.Render);
-        addValues(rainbow);
+        addValues(backgroundAlpha, rainbow, blur, Rect);
         setEnable(true);
     }
 
@@ -64,10 +67,18 @@ public class HUD extends Module {
             }
 
             int startX = sr.getScaledWidth() - FontLoaders.kiona17.getStringWidth(module.getSuffix() == null ? module.getName() : module.getName() + "," + module.getSuffix()) - 5;
-            RenderUtil.drawRect(module.animX, module.animY - 1, sr.getScaledWidth() + 1, module.animY + 10, SECONDARY);
+            if(Rect.getValue())
+                RenderUtil.drawRect(module.animX, module.animY - 1, sr.getScaledWidth() + 1, module.animY + 10, SECONDARY);
             RenderUtil.drawRect(sr.getScaledWidth() - 1, module.animY - 1, sr.getScaledWidth(), module.animY + 10, MAIN);
             if(module.animY == 0){
                 module.animY = yStart;
+            }
+            if(blur.getValue()){
+                FontLoaders.kiona17.drawStringWithShadow(module.getName(), module.animX + 3, module.getAnimY()+2, MAIN);
+                if (module.getSuffix() != null) {
+                    FontLoaders.kiona17.drawStringWithShadow(module.getSuffix(), module.getAnimX() + 3 + FontLoaders.kiona17.getStringWidth(module.getName() + ","), module.animY+2, Color.WHITE.darker().getRGB());
+                }
+                BlurUtil.blurArea(module.animX, 5, sr.getScaledWidth(), yStart + 4);
             }
             FontLoaders.kiona17.drawStringWithShadow(module.getName(), module.animX + 3, module.getAnimY()+2, MAIN);
             if (module.getSuffix() != null) {

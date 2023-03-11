@@ -9,6 +9,7 @@ import cn.exception.module.impl.movement.Eagle;
 import cn.exception.module.impl.movement.Fly;
 import cn.exception.module.impl.movement.Speed;
 import cn.exception.module.impl.movement.Sprint;
+import cn.exception.module.impl.player.ChestStealer;
 import cn.exception.module.impl.player.FastPlace;
 import cn.exception.module.impl.player.NoFall;
 import cn.exception.module.impl.player.Teams;
@@ -41,6 +42,7 @@ public class ModuleManager {
         moduleList.add(new Velocity());
         moduleList.add(new Fly());
         moduleList.add(new NoFall());
+        moduleList.add(new ChestStealer());
     }
 
     public Module getModuleByName(String s){
