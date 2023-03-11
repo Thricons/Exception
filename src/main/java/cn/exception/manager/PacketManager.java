@@ -23,8 +23,6 @@ public class PacketManager {//Skid
 
     public static PacketManager instance = null;
 
-    private float yaw;
-    private float pitch;
     public PacketManager(){
         FMLCommonHandler.instance().bus().register(this);
     }
@@ -40,22 +38,6 @@ public class PacketManager {//Skid
         if (netMgr != null)
             netMgr.channel().pipeline().addBefore("packet_handler", "SubMiLiBlue", new PacketListener());
     }
-
-    public float getYaw() {
-        return yaw;
-    }
-
-    public void setYaw(float yaw) {
-        this.yaw = yaw;
-    }
-
-    public float getPitch() {
-        return pitch;
-    }
-
-    public void setPitch(float pitch) {
-        this.pitch = pitch;
-    }
 }
 class PacketListener extends ChannelDuplexHandler {
     @Override
@@ -64,49 +46,8 @@ class PacketListener extends ChannelDuplexHandler {
         e.call();
         if(e.isCancelled()){
             return;
-        }else {
-            if(PacketManager.instance.getPitch() != 0){
-                if(msg instanceof C03PacketPlayer){
-                    C03PacketPlayer c03 = (C03PacketPlayer) msg;
-                    RefUtil.set(c03, PacketManager.instance.getPitch(), "pitch", "field_149473_f");
-                    e.setPacket(c03);
-                    PacketManager.instance.setPitch(0);
-                }
-                if(msg instanceof C03PacketPlayer.C05PacketPlayerLook){
-                    C03PacketPlayer.C05PacketPlayerLook c03 = (C03PacketPlayer.C05PacketPlayerLook) msg;
-                    RefUtil.set(c03, PacketManager.instance.getPitch(), "pitch", "field_149473_f");
-                    e.setPacket(c03);
-                    PacketManager.instance.setPitch(0);
-                }
-                if(msg instanceof C03PacketPlayer.C06PacketPlayerPosLook){
-                    C03PacketPlayer.C06PacketPlayerPosLook c03 = (C03PacketPlayer.C06PacketPlayerPosLook) msg;
-                    RefUtil.set(c03, PacketManager.instance.getPitch(), "pitch", "field_149473_f");
-                    e.setPacket(c03);
-                    PacketManager.instance.setPitch(0);
-                }
-            }
-            if(PacketManager.instance.getYaw() != 0){
-                if(msg instanceof C03PacketPlayer){
-                    C03PacketPlayer c03 = (C03PacketPlayer) msg;
-                    RefUtil.set(c03, PacketManager.instance.getPitch(), "yaw", "field_149476_e");
-                    e.setPacket(c03);
-                    PacketManager.instance.setYaw(0);
-                }
-                if(msg instanceof C03PacketPlayer.C05PacketPlayerLook){
-                    C03PacketPlayer.C05PacketPlayerLook c03 = (C03PacketPlayer.C05PacketPlayerLook) msg;
-                    RefUtil.set(c03, PacketManager.instance.getPitch(), "yaw", "field_149476_e");
-                    e.setPacket(c03);
-                    PacketManager.instance.setPitch(0);
-                }
-                if(msg instanceof C03PacketPlayer.C06PacketPlayerPosLook){
-                    C03PacketPlayer.C06PacketPlayerPosLook c03 = (C03PacketPlayer.C06PacketPlayerPosLook) msg;
-                    RefUtil.set(c03, PacketManager.instance.getPitch(), "yaw", "field_149476_e");
-                    e.setPacket(c03);
-                    PacketManager.instance.setPitch(0);
-                }
-            }
-            super.write(ctx, e.getPacket(), promise);
         }
+        super.write(ctx, e.getPacket(), promise);
     }
 
     @Override

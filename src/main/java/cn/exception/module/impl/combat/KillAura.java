@@ -32,6 +32,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.potion.Potion;
@@ -372,44 +373,40 @@ public class KillAura extends Module {
 
                 if (hand.isCurrentMode("Vlamy")) {
                     final float[] rots = getRotations(curTarget, event);
-                    PacketManager.instance.setYaw(rots[0]);
-                    PacketManager.instance.setPitch(rots[1]);
+                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(rots[0], rots[1], mc.thePlayer.onGround));
                 }
                 if (hand.isCurrentMode("AAC")) {
                     final float[] rots = getRotations1(curTarget);
-                    PacketManager.instance.setYaw(rots[0]);
-                    PacketManager.instance.setPitch(rots[1]);
+                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(rots[0], rots[1], mc.thePlayer.onGround));
                 }
                 if (hand.isCurrentMode("Hypixel")) {
                     final float[] rotations1 = ncpRotationsProperty.getValue() ? getRotations2(curTarget) : getRotations(curTarget, event.getYaw(), event.getPitch(), (float) (Object) angleValue.getValue());
                     final float yaw = rotations1[0];
                     final float pitch = rotations1[1];
-                    PacketManager.instance.setYaw(yaw);
-                    PacketManager.instance.setPitch(pitch);
+                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(yaw, pitch, mc.thePlayer.onGround));
 
                     mc.thePlayer.rotationYawHead = yaw;
                 }
                 if (hand.isCurrentMode("Zenith")) {
                     final float[] rots = customRots(event);
                     aacB /= 2.0f;
-                    PacketManager.instance.setYaw(rots[0]);
-                    PacketManager.instance.setPitch(rots[1]);
+                    //mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, rots[0], rots[1], mc.thePlayer.onGround));
+                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(rots[0], rots[1], mc.thePlayer.onGround));
+                    mc.thePlayer.rotationYawHead = rots[0];
                 }
                 if (hand.isCurrentMode("Exhibition")) {
                     final float[] rotations2 = RotationUtil.getRotations(curTarget);
                     //MathHelper.clamp_float(RotationUtil.getYawChangeGiven(curTarget.posX, curTarget.posZ, lastAngles.x) + randomNumber(-5.0, 5.0), -180.0f, 180.0f);
                     facing = RotationUtil.getRotations(curTarget);
                     if (facing.length > 0) {
-                        PacketManager.instance.setYaw(facing[0] + new Random().nextInt(2) - 1.0f);
-                        PacketManager.instance.setPitch(facing[1]);
+                        mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(facing[0] + new Random().nextInt(2) - 1.0f, facing[1], mc.thePlayer.onGround));
                     }
                 }
                 if (hand.isCurrentMode("Slient")) {
                     final float[] rotations1 = ncpRotationsProperty.getValue() ? getRotations2(curTarget) : getRotations(curTarget, event.getYaw(), event.getPitch(), (float) (Object) angleValue.getValue());
                     final float yaw = rotations1[0];
                     final float pitch = rotations1[1];
-                    PacketManager.instance.setYaw(yaw);
-                    PacketManager.instance.setPitch(pitch);
+                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(yaw, pitch, mc.thePlayer.onGround));
 
                     mc.thePlayer.rotationYawHead = yaw;
                 }
