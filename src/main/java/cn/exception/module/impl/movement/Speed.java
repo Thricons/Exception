@@ -23,8 +23,9 @@ import java.math.RoundingMode;
  * @author MiLiBlue
  **/
 public class Speed extends Module {
-    public static Mode mode = new Mode("Mode", new String[]{"NCP", "Vanilla", "Mineland", "BlocksMC"}, "NCP");
+    public static Mode mode = new Mode("Mode", new String[]{"NCP", "Vanilla", "Mineland", "BlocksMC", "Hypixel"}, "Hypixel");
     public Numbers timer = new Numbers<>("Timer", 1.6, 1,2,0.1);
+    public Numbers speed = new Numbers<>("Speed(Hypixel)", 0.42, 0.1,1,0.01);
     private boolean bool;
     public Option workOnDamange = new Option("OnlyWorkOnDamage", true);
     private int offGroundTicks;
@@ -175,6 +176,16 @@ public class Speed extends Module {
                 moveSpeed = MoveUtil.getSpeed() * 1.001;
                 MoveUtil.strafe(moveSpeed);
             }else{
+                mc.thePlayer.motionX = 0D;
+                mc.thePlayer.motionZ = 0D;
+            }
+        }
+        if(mode.isCurrentMode("Hypixel")){
+            if(mc.thePlayer.onGround)
+                mc.thePlayer.jump();
+            if(MoveUtil.isMoving()){
+                MoveUtil.strafe(speed.floatValue());
+            }else {
                 mc.thePlayer.motionX = 0D;
                 mc.thePlayer.motionZ = 0D;
             }
